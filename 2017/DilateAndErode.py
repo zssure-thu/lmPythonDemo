@@ -89,7 +89,6 @@ def createMorphologyOperator(left:int,right:int,anterior:int,posterior:int):
     #填充上方算子坐标轴
     for j in range(lOptSize-anterior,lOptSize+1):
         lOpt[j,lOptSize] = 1
-    
     #填充第一象限
     if right < anterior:
         for j in range(lOptSize+right,lOptSize,-1):
@@ -107,7 +106,7 @@ def createMorphologyOperator(left:int,right:int,anterior:int,posterior:int):
                 lOpt[lOptSize-i,j] = 1
     else:
         for i in range(lOptSize-anterior,lOptSize+1):
-            for j in range(0,i):
+            for j in range(0,i+1):
                 lOpt[i,lOptSize-j] = 1
                 
     #填充第三象限
@@ -135,7 +134,7 @@ def runTest():
     outputPath = "d:\\kankan"
     dilateOrErosion = 0
     loaddata = loadBinaryDatafromJson(inputFile)
-    operator = createMorphologyOperator(1,3,3,3)
+    operator = createMorphologyOperator(3,3,3,3)
     if dilateOrErosion == '0':
         output = ndimage.binary_dilation(loaddata,operator).astype(loaddata.dtype)
     else:
@@ -172,7 +171,6 @@ if __name__ == "__main__":
     right = sys.argv[5] 
     anterior = sys.argv[6] 
     posterior = sys.argv[7]
-    
     loaddata = loadBinaryDatafromJson(inputFile)
     operator = createMorphologyOperator(int(left),int(right),int(anterior),int(posterior))
     print(operator)
